@@ -1,8 +1,12 @@
 import React from 'react';
+import { useMutation } from '@apollo/react-hooks';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import { JobType } from 'types';
+import { EDIT_JOB } from 'graphql/queries';
+import TextOrInput from './TextOrInput';
 import useStyles from './useStyles';
 
 type Props = {
@@ -11,17 +15,33 @@ type Props = {
 
 const CardContent = ({ job }: Props) => {
   const classes = useStyles();
+  const [edit] = useMutation(EDIT_JOB);
   return (
     <>
-      <Typography className={classes.title} color="textSecondary" gutterBottom>
-        Position: {job.position}
-      </Typography>
-      <Typography variant="h5" component="h2">
-        Name: {job.name}
-      </Typography>
-      <Typography className={classes.pos} color="textSecondary">
-        Source: {job.source}
-      </Typography>
+      <TextOrInput
+        textProps={{ className: classes.title, color: 'textSecondary', gutterBottom: true }}
+        name="Position"
+        text={job.position}
+        EditComponent={TextField}
+        fieldName="position"
+        onSubmit={(name, value) => edit({ variables: { id: job.id, input: { [name]: value } } })}
+      />
+      <TextOrInput
+        textProps={{ variant: 'h5', component: 'h2' }}
+        name="Name"
+        text={job.name}
+        EditComponent={TextField}
+        fieldName="name"
+        onSubmit={(name, value) => edit({ variables: { id: job.id, input: { [name]: value } } })}
+      />
+      <TextOrInput
+        textProps={{ className: classes.pos, color: 'textSecondary' }}
+        name="Source"
+        text={job.source}
+        EditComponent={TextField}
+        fieldName="source"
+        onSubmit={(name, value) => edit({ variables: { id: job.id, input: { [name]: value } } })}
+      />
       <Typography variant="body2" component="p">
         Link:{' '}
         <a href={job.link} target="_blank" rel="noopener noreferrer">
@@ -29,11 +49,21 @@ const CardContent = ({ job }: Props) => {
         </a>
       </Typography>
       <Typography>Remote Option: {job.remoteOption ? <CheckIcon /> : <CloseIcon />}</Typography>
-      <Typography>Team: {job.team}</Typography>
-      <Typography>Stack: {job.stack}</Typography>
-      <Typography>Office: {job.officeAddress}</Typography>
-      <Typography>Additional: {job.additionalBonuses}</Typography>
-      <Typography>Comments: {job.comments}</Typography>
+      {[
+        { fieldName: 'team', name: 'Team', text: job.team },
+        { fieldName: 'stack', name: 'Stack', text: job.stack },
+        { fieldName: 'officeAddress', name: 'Office', text: job.officeAddress },
+        { fieldName: 'additionalBonuses', name: 'Additional', text: job.additionalBonuses },
+        { fieldName: 'comments', name: 'Comments', text: job.comments },
+      ].map(({ fieldName, name, text }) => (
+        <TextOrInput
+          name={name}
+          text={text}
+          EditComponent={TextField}
+          fieldName={fieldName}
+          onSubmit={(n, value) => edit({ variables: { id: job.id, input: { [n]: value } } })}
+        />
+      ))}
     </>
   );
 };

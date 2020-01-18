@@ -7,7 +7,7 @@ import { JobType } from 'types';
 import JobCard from './JobCard';
 
 const Jobs: React.FC = () => {
-  const [jobs, setJobs] = React.useState([]);
+  const [jobs, setJobs] = React.useState<JobType[]>([]);
   const { data, loading } = useQuery(GET_ALL_JOBS);
 
   React.useEffect(() => {
@@ -16,9 +16,30 @@ const Jobs: React.FC = () => {
     }
   }, [data]);
 
-  return loading ? <p>Loading...</p> : (
+  const handleNew = () => {
+    setJobs([
+      {
+        name: '',
+        additionalBonuses: '',
+        comments: '',
+        link: '',
+        officeAddress: '',
+        id: '',
+        position: '',
+        remoteOption: false,
+        source: '',
+        stack: '',
+        team: '',
+      },
+      ...jobs,
+    ]);
+  };
+
+  return loading ? (
+    <p>Loading...</p>
+  ) : (
     <div>
-      <Fab color="primary" aria-label="add">
+      <Fab color="primary" aria-label="add" onClick={handleNew}>
         <AddIcon />
       </Fab>
       {jobs.map((job: JobType) => (

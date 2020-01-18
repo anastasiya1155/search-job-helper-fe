@@ -8,19 +8,25 @@ import useStyles from './useStyles';
 import JobCardContent from './JobCardContent';
 
 type Props = {
-  job: JobType
-}
+  job: JobType;
+};
 
 const JobCard = ({ job }: Props) => {
-  const [isEdit, setEdit] = React.useState(false);
+  const [isRemove, setRemove] = React.useState(false);
   const classes = useStyles();
   return (
     <Card className={classes.card}>
       <CardContent>
-        <JobCardContent job={job} />
+        {isRemove ? (
+          <Button className={classes.removeBtn}>Confirm</Button>
+        ) : (
+          <JobCardContent job={job} />
+        )}
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => setEdit(true)}>Edit</Button>
+        <Button size="small" onClick={() => setRemove(!isRemove)}>
+          {isRemove ? 'Cancel' : 'Remove'}
+        </Button>
       </CardActions>
     </Card>
   );
