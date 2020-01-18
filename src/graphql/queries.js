@@ -10,6 +10,7 @@ export const GET_ALL_JOBS = gql`
             link
             remoteOption
             team
+            officeAddress
             laptopProvided
             stack
             additionalBonuses
