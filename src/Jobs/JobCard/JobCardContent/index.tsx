@@ -2,8 +2,8 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
+import { JobType } from 'types';
 import useStyles from './useStyles';
-import { JobType } from '../../../types';
 
 type Props = {
   job: JobType;

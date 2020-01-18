@@ -32,7 +32,10 @@ const Dashboard: React.FC = ({ children }) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="absolute" className={[classes.appBar, open ? classes.appBarShift : ''].join(' ')}>
+      <AppBar
+        position="absolute"
+        className={[classes.appBar, open ? classes.appBarShift : ''].join(' ')}
+      >
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -94,9 +97,7 @@ const Dashboard: React.FC = ({ children }) => {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                {children}
-              </Paper>
+              <Paper className={classes.paper}>{children}</Paper>
             </Grid>
           </Grid>
         </Container>
