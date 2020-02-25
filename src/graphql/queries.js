@@ -39,3 +39,22 @@ export const EDIT_JOB = gql`
     }
   }
 `;
+
+export const CREATE_JOB = gql`
+  mutation createJob($input: JobInput!) {
+    createJob(input: $input) {
+      id
+      name
+      source
+      position
+      link
+      remoteOption
+      team
+      officeAddress
+      laptopProvided
+      stack
+      additionalBonuses
+      comments
+    }
+  }
+`;

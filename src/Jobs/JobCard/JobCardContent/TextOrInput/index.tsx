@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import CheckIcon from '@material-ui/icons/Check';
 import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
+import useStyles from './useStyles';
 
 type Props = {
   textProps?: object;
@@ -27,6 +28,7 @@ const TextOrInput = ({
 }: Props) => {
   const [isEdit, setEdit] = React.useState(false);
   const [value, setValue] = React.useState(text);
+  const classes = useStyles();
   const handleCancelEdit = () => {
     setValue(text);
     setEdit(false);
@@ -43,15 +45,15 @@ const TextOrInput = ({
       {isEdit ? (
         <span>
           <EditComponent {...editProps} value={value} onChange={handleChange} />
-          <CheckIcon onClick={handleSubmit} />
+          <CheckIcon className={classes.confirmIcons} onClick={handleSubmit} />
         </span>
       ) : (
         text
       )}
       {isEdit ? (
-        <CloseIcon onClick={handleCancelEdit} />
+        <CloseIcon className={classes.confirmIcons} onClick={handleCancelEdit} />
       ) : (
-        <EditIcon onClick={() => setEdit(true)} />
+        <EditIcon className={classes.pencil} onClick={() => setEdit(true)} />
       )}
     </Typography>
   );

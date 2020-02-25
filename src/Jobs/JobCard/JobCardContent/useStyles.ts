@@ -7,4 +7,8 @@ export default makeStyles({
   pos: {
     marginBottom: 12,
   },
+  link: {
+    color: 'inherit',
+    border: 'none',
+  },
 });
