@@ -25,3 +25,13 @@ export type JobInputType = {
   additionalBonuses?: string;
   comments?: string;
 };
+
+export type InterviewType = {
+  id: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+  type: string;
+  jobId: string;
+  job: JobType;
+};

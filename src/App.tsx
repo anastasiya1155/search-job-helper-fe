@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
 import Jobs from './Jobs';
+import Interviews from './Interviews';
 import apolloClient from './graphql/config';
 import Layout from './Layout/Dashboard';
 
@@ -11,6 +12,7 @@ const App: React.FC = () => (
       <Layout>
         <Switch>
           <Route path="/jobs" component={Jobs} />
+          <Route path="/interviews" component={Interviews} />
           <Route path="/" component={Jobs} />
         </Switch>
       </Layout>

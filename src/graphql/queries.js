@@ -58,3 +58,21 @@ export const CREATE_JOB = gql`
     }
   }
 `;
+
+export const GET_ALL_INTERVIEWS = gql`
+  query getAllInterviews {
+    getAllInterviews {
+      id
+      startTime
+      endTime
+      location
+      type
+      jobId
+      job {
+        id
+        name
+      }
+      comments
+    }
+  }
+`;

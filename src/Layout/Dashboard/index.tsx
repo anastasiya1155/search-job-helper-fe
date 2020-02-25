@@ -81,12 +81,12 @@ const Dashboard: React.FC = ({ children }) => {
               <ListItemText primary="Jobs" />
             </ListItem>
           </Link>
-          <Link to="/planner">
+          <Link to="/interviews">
             <ListItem button>
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
-              <ListItemText primary="Planner" />
+              <ListItemText primary="Interviews" />
             </ListItem>
           </Link>
         </List>
