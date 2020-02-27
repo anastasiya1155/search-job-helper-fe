@@ -28,10 +28,21 @@ export type JobInputType = {
 
 export type InterviewType = {
   id: string;
-  startTime: string;
-  endTime: string;
+  startTime: Date;
+  endTime: Date;
   location: string;
   type: string;
   jobId: string;
   job: JobType;
+  comments: string;
+};
+
+export type InterviewInputType = {
+  id?: string;
+  startTime?: Date | string;
+  endTime?: Date | string;
+  location?: string;
+  type?: string;
+  jobId?: string;
+  comments?: string;
 };

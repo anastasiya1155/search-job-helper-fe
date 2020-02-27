@@ -76,3 +76,21 @@ export const GET_ALL_INTERVIEWS = gql`
     }
   }
 `;
+
+export const CREATE_INTERVIEW = gql`
+  mutation createInterview($input: InterviewInput) {
+    createInterview(input: $input) {
+      id
+      startTime
+      endTime
+      location
+      type
+      jobId
+      job {
+        id
+        name
+      }
+      comments
+    }
+  }
+`;
