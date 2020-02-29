@@ -95,7 +95,7 @@ const Interviews = () => {
   const appointmentForm = connectProps(AddInterviewDialog, () => ({
     isOpen: isEdit,
     initialValues: interviewToEdit,
-    onSubmit,
+    handleSubmit: onSubmit,
     visibleChange: () => setEdit(!isEdit),
     onEditingAppointmentChange: (i: InterviewInputType) => setInterviewToEdit(i),
     onClose: cancelEdit,
