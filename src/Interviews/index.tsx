@@ -1,10 +1,12 @@
 import React from 'react';
 import moment from 'moment';
-import { useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import { ViewState } from '@devexpress/dx-react-scheduler';
+import Paper from '@material-ui/core/Paper';
+import { connectProps } from '@devexpress/dx-react-core';
+import { ViewState, EditingState, ChangeSet } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
   WeekView,
@@ -14,9 +16,12 @@ import {
   DateNavigator,
   ViewSwitcher,
   AppointmentTooltip,
+  AppointmentForm,
+  DragDropProvider,
   CurrentTimeIndicator,
+  EditRecurrenceMenu,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { GET_ALL_INTERVIEWS } from 'graphql/queries';
+import { CREATE_INTERVIEW, EDIT_INTERVIEW, GET_ALL_INTERVIEWS } from 'graphql/queries';
 import { InterviewInputType, InterviewType } from 'types';
 import AddInterviewDialog from 'Interviews/AddDialog';
 import useStyles from './useStyles';
@@ -44,8 +49,11 @@ const Interviews = () => {
   const [isEdit, setEdit] = React.useState(false);
   const [interviewToEdit, setInterviewToEdit] = React.useState<InterviewInputType>(emptyInterview);
   const { data, loading } = useQuery(GET_ALL_INTERVIEWS);
+  const [create] = useMutation(CREATE_INTERVIEW);
+  const [edit] = useMutation(EDIT_INTERVIEW);
   const safeData = data && data.getAllInterviews ? data.getAllInterviews : [];
   const formattedData = safeData.map((i: InterviewType) => ({
+    ...i,
     startDate: i.startTime,
     endDate: i.endTime,
     title: `${i.job ? i.job.name : 'no job'}, ${i.type}, ${i.location}`,
@@ -57,10 +65,67 @@ const Interviews = () => {
     setInterviewToEdit(emptyInterview);
   };
 
+  const cancelEdit = () => {
+    setInterviewToEdit(emptyInterview);
+    setEdit(false);
+  };
+
+  const onSubmit = (values: InterviewInputType) => {
+    const { id } = interviewToEdit;
+    const { startTime, endTime, comments, jobId, location, type } = values;
+    const options = id
+      ? {
+          variables: {
+            id,
+            input: {
+              startTime,
+              endTime,
+              comments,
+              jobId,
+              location,
+              type,
+            },
+          },
+        }
+      : { variables: { input: values }, refetchQueries: ['getAllInterviews'] };
+    const operation = id ? edit : create;
+    operation(options).then(cancelEdit);
+  };
+
+  const appointmentForm = connectProps(AddInterviewDialog, () => ({
+    isOpen: isEdit,
+    initialValues: interviewToEdit,
+    onSubmit,
+    visibleChange: () => setEdit(!isEdit),
+    onEditingAppointmentChange: (i: InterviewInputType) => setInterviewToEdit(i),
+    onClose: cancelEdit,
+  }));
+
+  const handleChanges = (smth: ChangeSet) => {
+    if (smth.changed) {
+      const changedInterviewId = Object.keys(smth.changed)[0];
+      edit({
+        variables: {
+          id: changedInterviewId,
+          input: {
+            startTime: smth.changed[changedInterviewId].startDate,
+            endTime: smth.changed[changedInterviewId].endDate,
+          },
+        },
+      });
+    }
+  };
+
   return (
-    <div className={classes.container}>
-      <Scheduler data={formattedData}>
+    <Paper className={classes.container}>
+      <Scheduler data={formattedData} height={550}>
         <ViewState />
+        <EditingState
+          onCommitChanges={handleChanges}
+          onEditingAppointmentChange={int => {
+            setInterviewToEdit(int as InterviewInputType);
+          }}
+        />
         <WeekView startDayHour={9} endDayHour={21} />
         <MonthView />
         <Appointments />
@@ -68,18 +133,20 @@ const Interviews = () => {
         <Toolbar {...(loading ? { rootComponent: ToolbarWithLoading } : null)} />
         <DateNavigator />
         <ViewSwitcher />
+        <EditRecurrenceMenu />
         <AppointmentTooltip showOpenButton showCloseButton />
+        <AppointmentForm
+          overlayComponent={appointmentForm}
+          visible={isEdit}
+          onVisibilityChange={() => setEdit(!isEdit)}
+        />
+        <DragDropProvider />
         <CurrentTimeIndicator shadePreviousCells shadePreviousAppointments updateInterval={10000} />
         <Fab color="secondary" className={classes.addButton} onClick={handleAdd}>
           <AddIcon />
         </Fab>
       </Scheduler>
-      <AddInterviewDialog
-        isOpen={isEdit}
-        initialValues={interviewToEdit}
-        onClose={() => setEdit(false)}
-      />
-    </div>
+    </Paper>
   );
 };
 

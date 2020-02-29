@@ -94,3 +94,23 @@ export const CREATE_INTERVIEW = gql`
     }
   }
 `;
+
+export const EDIT_INTERVIEW = gql`
+  mutation editInterview($id: ID!, $input: InterviewInput!) {
+    interview(id: $id) {
+      edit(input: $input) {
+        id
+        startTime
+        endTime
+        location
+        type
+        jobId
+        job {
+          id
+          name
+        }
+        comments
+      }
+    }
+  }
+`;

@@ -10,32 +10,26 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import { DateTimePicker } from '@material-ui/pickers';
 import { InterviewInputType, JobType } from 'types';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { GET_ALL_JOBS, CREATE_INTERVIEW } from 'graphql/queries';
+import { useQuery } from '@apollo/react-hooks';
+import { GET_ALL_JOBS } from 'graphql/queries';
 import { emptyInterview } from 'Interviews/index';
 
 type Props = {
   isOpen: boolean;
   initialValues: InterviewInputType;
   onClose: () => void;
+  handleSubmit: (i: InterviewInputType) => void;
 };
 
-const AddInterviewDialog = ({ isOpen, initialValues, onClose }: Props) => {
+const AddInterviewDialog = ({ isOpen, initialValues = {}, onClose, handleSubmit }: Props) => {
   const [values, setValues] = React.useState<InterviewInputType>(initialValues);
   const { data } = useQuery(GET_ALL_JOBS);
-  const [create] = useMutation(CREATE_INTERVIEW);
   const jobs = data && data.getAllJobs ? data.getAllJobs : [];
   const handleClose = () => {
     setValues(emptyInterview);
     onClose();
   };
-  const handleSubmit = () => {
-    if (!initialValues.id) {
-      create({ variables: { input: values }, refetchQueries: ['getAllInterviews'] }).then(
-        handleClose,
-      );
-    }
-  };
+
   return (
     <Dialog open={isOpen} onClose={handleClose}>
       <Paper style={{ padding: 20 }}>
@@ -113,7 +107,7 @@ const AddInterviewDialog = ({ isOpen, initialValues, onClose }: Props) => {
               <Button onClick={handleClose}>Cancel</Button>
             </Grid>
             <Grid item xs={6}>
-              <Button onClick={handleSubmit}>Submit</Button>
+              <Button onClick={() => handleSubmit(values)}>Submit</Button>
             </Grid>
           </Grid>
         </form>

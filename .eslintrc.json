@@ -46,6 +46,8 @@
                 "tsx": "never"
             }
         ],
+        "indent": 0,
+        "object-curly-newline": 0,
         "prettier/prettier": ["error", {
             "singleQuote": true,
             "trailingComma": "all",

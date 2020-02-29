@@ -6,7 +6,7 @@ export default makeStyles((theme: Theme) => ({
   },
   addButton: {
     position: 'fixed',
-    bottom: theme.spacing(3),
+    bottom: theme.spacing(10),
     right: theme.spacing(14),
     zIndex: 10,
   },
