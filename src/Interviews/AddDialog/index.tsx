@@ -125,11 +125,10 @@ const AddInterviewDialog = ({ isOpen, initialValues = {}, onClose, handleSubmit,
                   const { date, ...vals } = values;
                   const startTime = moment(values.startTime).format('HH:mm');
                   const endTime = moment(values.endTime).format('HH:mm');
-                  console.log(date, startTime, moment(`${date} ${startTime}`).toDate());
                   handleSubmit({
                     ...vals,
-                    startTime: moment(`${date} ${startTime}`).toDate(),
-                    endTime: moment(`${date} ${endTime}`).toDate(),
+                    startTime: `${date} ${startTime}`,
+                    endTime: `${date} ${endTime}`,
                   });
                 }}
               >
