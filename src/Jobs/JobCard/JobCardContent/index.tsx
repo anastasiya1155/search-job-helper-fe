@@ -7,6 +7,7 @@ import { JobType } from 'types';
 import InterestRate from 'Jobs/JobCard/InterestRate';
 import TextOrInput from './TextOrInput';
 import useStyles from './useStyles';
+import fieldsMap from './fieldsMap';
 
 type Props = {
   job: JobType;
@@ -25,6 +26,7 @@ const CardContent = ({ job, edit }: Props) => {
       <TextOrInput
         textProps={{ className: classes.title, color: 'textSecondary', gutterBottom: true }}
         name="Position"
+        type="string"
         text={job.position}
         EditComponent={TextField}
         fieldName="position"
@@ -33,6 +35,7 @@ const CardContent = ({ job, edit }: Props) => {
       <TextOrInput
         textProps={{ variant: 'h5', component: 'h2' }}
         name="Name"
+        type="string"
         text={job.name}
         EditComponent={TextField}
         fieldName="name"
@@ -44,29 +47,27 @@ const CardContent = ({ job, edit }: Props) => {
           {job.link}
         </a>
       </Typography>
-      {[
-        { fieldName: 'remoteOption', name: 'Remote Option', text: job.remoteOption.toString() },
-        { fieldName: 'team', name: 'Team', text: job.team },
-        { fieldName: 'stack', name: 'Stack', text: job.stack },
-        { fieldName: 'officeAddress', name: 'Office', text: job.officeAddress },
-        { fieldName: 'additionalBonuses', name: 'Additional', text: job.additionalBonuses },
-        { fieldName: 'source', name: 'Source', text: job.source },
-        { fieldName: 'comments', name: 'Comments', text: job.comments },
-      ].map(({ fieldName, name, text }) => (
+      {fieldsMap.map(({ fieldName, name, type, editProps, editComponent }) => (
         <TextOrInput
           key={fieldName}
           name={name}
-          text={text}
-          EditComponent={TextField}
+          type={type}
+          text={job[fieldName]}
+          EditComponent={editComponent}
+          editProps={editProps}
           fieldName={fieldName}
-          onSubmit={(n, value) =>
-            edit({
+          onSubmit={(n, value) => {
+            let normalizedValue: any = value;
+            if (type === 'number') {
+              normalizedValue = parseInt(value, 10);
+            }
+            return edit({
               variables: {
                 id: job.id,
-                input: { [n]: n === 'remoteOption' ? value === 'true' : value },
+                input: { [n]: normalizedValue },
               },
-            })
-          }
+            });
+          }}
         />
       ))}
     </>

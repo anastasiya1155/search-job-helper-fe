@@ -12,6 +12,11 @@ export type JobType = {
   comments: string;
   interested: number;
   active: boolean;
+  salaryAsk: number;
+  salaryOffer: number;
+  timeToOffice: number;
+  offer: boolean;
+  testTask: string;
   [fieldName: string]: string | boolean | number | undefined;
 };
 
@@ -28,6 +33,11 @@ export type JobInputType = {
   comments?: string;
   interested?: number;
   active?: boolean;
+  salaryAsk?: string | number;
+  salaryOffer?: string | number;
+  timeToOffice?: string | number;
+  offer?: boolean;
+  testTask?: string;
 };
 
 export type InterviewType = {

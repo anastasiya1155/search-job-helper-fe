@@ -7,7 +7,15 @@ export default makeStyles({
     height: 'fit-content',
     position: 'relative',
     overflow: 'visible',
-    backgroundColor: (job: JobType) => (job.active ? 'white' : '#eee'),
+    backgroundColor: (job: JobType) => {
+      if (!job.active) {
+        return '#eee';
+      }
+      if (job.offer) {
+        return '#d0ffb4';
+      }
+      return 'white';
+    },
   },
   cardContainer: {
     position: 'relative',

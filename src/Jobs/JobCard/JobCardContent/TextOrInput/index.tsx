@@ -15,6 +15,7 @@ type Props = {
   EditComponent: React.ElementType;
   editProps?: object;
   onSubmit: (name: string, value: string) => Promise<ExecutionResult<any>>;
+  type: string;
 };
 
 const TextOrInput = ({
@@ -25,6 +26,7 @@ const TextOrInput = ({
   name,
   onSubmit,
   fieldName,
+  type,
 }: Props) => {
   const [isEdit, setEdit] = React.useState(false);
   const [value, setValue] = React.useState(text);
@@ -34,28 +36,38 @@ const TextOrInput = ({
     setEdit(false);
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setValue(type === 'boolean' ? e.target.checked : e.target.value);
   };
   const handleSubmit = () => {
     onSubmit(fieldName, value).then(() => setEdit(false));
   };
-  return (
+  let displayValue = (
     <Typography {...textProps}>
-      {name}:{' '}
+      {text}
+    </Typography>
+  );
+  if (type === 'boolean') {
+    displayValue = text ? <CheckIcon/> : <CloseIcon/>
+  }
+  return (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <Typography {...textProps} style={{ flexShrink: 0 }}>
+        {name}:{' '}
+      </Typography>
       {isEdit ? (
-        <span>
-          <EditComponent {...editProps} value={value} onChange={handleChange} />
+        <>
+          <EditComponent {...editProps} value={value} checked={value} onChange={handleChange} />
           <CheckIcon className={classes.confirmIcons} onClick={handleSubmit} />
-        </span>
+        </>
       ) : (
-        text
+        displayValue
       )}
       {isEdit ? (
         <CloseIcon className={classes.confirmIcons} onClick={handleCancelEdit} />
       ) : (
         <EditIcon className={classes.pencil} onClick={() => setEdit(true)} />
       )}
-    </Typography>
+    </div>
   );
 };
 

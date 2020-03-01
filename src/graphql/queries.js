@@ -17,6 +17,11 @@ export const GET_ALL_JOBS = gql`
       comments
       interested
       active
+      salaryAsk
+      salaryOffer
+      timeToOffice
+      offer
+      testTask
     }
   }
 `;
@@ -39,6 +44,11 @@ export const EDIT_JOB = gql`
         comments
         interested
         active
+        salaryAsk
+        salaryOffer
+        timeToOffice
+        offer
+        testTask
       }
     }
   }
@@ -61,6 +71,11 @@ export const CREATE_JOB = gql`
       comments
       interested
       active
+      salaryAsk
+      salaryOffer
+      timeToOffice
+      offer
+      testTask
     }
   }
 `;

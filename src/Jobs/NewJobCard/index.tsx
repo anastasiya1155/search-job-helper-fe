@@ -7,8 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { JobInputType } from 'types';
-import useStyles from './useStyles';
 import InterestRate from 'Jobs/JobCard/InterestRate';
+import useStyles from './useStyles';
 
 type Props = {
   onCancel: () => void;
@@ -23,6 +23,11 @@ type Field =
   | 'stack'
   | 'officeAddress'
   | 'additionalBonuses'
+  | 'source'
+  | 'salaryAsk'
+  | 'salaryOffer'
+  | 'timeToOffice'
+  | 'testTask'
   | 'comments';
 
 const NewJobCard = ({ onCancel, onSubmit }: Props) => {
@@ -37,7 +42,12 @@ const NewJobCard = ({ onCancel, onSubmit }: Props) => {
     'stack',
     'officeAddress',
     'additionalBonuses',
+    'source',
     'comments',
+    'salaryAsk',
+    'salaryOffer',
+    'timeToOffice',
+    'testTask',
   ];
   return (
     <Card className={classes.card}>
@@ -77,7 +87,25 @@ const NewJobCard = ({ onCancel, onSubmit }: Props) => {
         <Button size="small" onClick={() => setRemove(!isRemove)}>
           {isRemove ? 'Cancel' : 'Remove'}
         </Button>
-        <Button size="small" onClick={() => onSubmit(inputs)}>
+        <Button
+          size="small"
+          onClick={() => {
+            const normalizedInputs = {
+              ...inputs,
+              salaryAsk: inputs.salaryAsk
+                ? parseInt(inputs.salaryAsk as string, 10)
+                : inputs.salaryAsk,
+              salaryOffer: inputs.salaryOffer
+                ? parseInt(inputs.salaryOffer as string, 10)
+                : inputs.salaryOffer,
+              timeToOffice: inputs.timeToOffice
+                ? parseInt(inputs.timeToOffice as string, 10)
+                : inputs.timeToOffice,
+            };
+
+            return onSubmit(normalizedInputs);
+          }}
+        >
           Submit
         </Button>
       </CardActions>
