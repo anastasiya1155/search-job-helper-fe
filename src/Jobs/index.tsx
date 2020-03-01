@@ -42,7 +42,7 @@ const Jobs: React.FC = () => {
           />
         ) : null}
         {jobs.map((job: JobType) => (
-          <JobCard job={job} />
+          <JobCard job={job} key={job.id} />
         ))}
       </div>
     </div>

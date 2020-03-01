@@ -8,6 +8,7 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { JobInputType } from 'types';
 import useStyles from './useStyles';
+import InterestRate from 'Jobs/JobCard/InterestRate';
 
 type Props = {
   onCancel: () => void;
@@ -47,6 +48,7 @@ const NewJobCard = ({ onCancel, onSubmit }: Props) => {
           </Button>
         ) : (
           <div>
+            <InterestRate rate={5} onChange={val => setInputs({ ...inputs, interested: val })} />
             {fields.map((name: Field) => (
               <TextField
                 key={name}

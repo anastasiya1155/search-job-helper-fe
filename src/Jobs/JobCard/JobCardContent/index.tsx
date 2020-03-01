@@ -1,23 +1,27 @@
 import React from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { MutationHookOptions } from '@apollo/react-hooks';
+import { ExecutionResult } from 'graphql';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-// import CheckIcon from '@material-ui/icons/Check';
-// import CloseIcon from '@material-ui/icons/Close';
 import { JobType } from 'types';
-import { EDIT_JOB } from 'graphql/queries';
+import InterestRate from 'Jobs/JobCard/InterestRate';
 import TextOrInput from './TextOrInput';
 import useStyles from './useStyles';
 
 type Props = {
   job: JobType;
+  edit: (options: MutationHookOptions) => Promise<ExecutionResult<any>>;
 };
 
-const CardContent = ({ job }: Props) => {
+const CardContent = ({ job, edit }: Props) => {
   const classes = useStyles();
-  const [edit] = useMutation(EDIT_JOB);
   return (
     <>
+      <InterestRate
+        rate={job.interested || 0}
+        isGrey={!job.active}
+        onChange={value => edit({ variables: { id: job.id, input: { interested: value } } })}
+      />
       <TextOrInput
         textProps={{ className: classes.title, color: 'textSecondary', gutterBottom: true }}
         name="Position"
@@ -50,6 +54,7 @@ const CardContent = ({ job }: Props) => {
         { fieldName: 'comments', name: 'Comments', text: job.comments },
       ].map(({ fieldName, name, text }) => (
         <TextOrInput
+          key={fieldName}
           name={name}
           text={text}
           EditComponent={TextField}

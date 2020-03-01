@@ -15,6 +15,8 @@ export const GET_ALL_JOBS = gql`
       stack
       additionalBonuses
       comments
+      interested
+      active
     }
   }
 `;
@@ -35,6 +37,8 @@ export const EDIT_JOB = gql`
         stack
         additionalBonuses
         comments
+        interested
+        active
       }
     }
   }
@@ -55,6 +59,18 @@ export const CREATE_JOB = gql`
       stack
       additionalBonuses
       comments
+      interested
+      active
+    }
+  }
+`;
+
+export const REMOVE_JOB = gql`
+  mutation removeJob($id: ID!) {
+    job(id: $id) {
+      remove {
+        id
+      }
     }
   }
 `;

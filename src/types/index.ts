@@ -10,7 +10,9 @@ export type JobType = {
   officeAddress: string;
   additionalBonuses: string;
   comments: string;
-  [fieldName: string]: string | boolean | undefined;
+  interested: number;
+  active: boolean;
+  [fieldName: string]: string | boolean | number | undefined;
 };
 
 export type JobInputType = {
@@ -24,6 +26,8 @@ export type JobInputType = {
   officeAddress?: string;
   additionalBonuses?: string;
   comments?: string;
+  interested?: number;
+  active?: boolean;
 };
 
 export type InterviewType = {
