@@ -49,4 +49,5 @@ export type InterviewInputType = {
   type?: string;
   jobId?: string;
   comments?: string;
+  date?: Date | string;
 };

@@ -130,3 +130,13 @@ export const EDIT_INTERVIEW = gql`
     }
   }
 `;
+
+export const REMOVE_INTERVIEW = gql`
+  mutation removeInterview($id: ID!) {
+    interview(id: $id) {
+      remove {
+        id
+      }
+    }
+  }
+`;

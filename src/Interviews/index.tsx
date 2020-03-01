@@ -21,7 +21,7 @@ import {
   CurrentTimeIndicator,
   EditRecurrenceMenu,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { CREATE_INTERVIEW, EDIT_INTERVIEW, GET_ALL_INTERVIEWS } from 'graphql/queries';
+import { CREATE_INTERVIEW, EDIT_INTERVIEW, GET_ALL_INTERVIEWS, REMOVE_INTERVIEW } from 'graphql/queries';
 import { InterviewInputType, InterviewType } from 'types';
 import AddInterviewDialog from 'Interviews/AddDialog';
 import useStyles from './useStyles';
@@ -35,6 +35,7 @@ const ToolbarWithLoading: React.FC = ({ children, ...restProps }) => (
 );
 
 export const emptyInterview = {
+  date: moment().format('YYYY-MM-DD'),
   startTime: new Date(),
   endTime: moment()
     .add(1, 'hour')
@@ -51,6 +52,7 @@ const Interviews = () => {
   const { data, loading } = useQuery(GET_ALL_INTERVIEWS);
   const [create] = useMutation(CREATE_INTERVIEW);
   const [edit] = useMutation(EDIT_INTERVIEW);
+  const [remove] = useMutation(REMOVE_INTERVIEW);
   const safeData = data && data.getAllInterviews ? data.getAllInterviews : [];
   const formattedData = safeData.map((i: InterviewType) => ({
     ...i,
@@ -66,8 +68,8 @@ const Interviews = () => {
   };
 
   const cancelEdit = () => {
-    setInterviewToEdit(emptyInterview);
     setEdit(false);
+    setInterviewToEdit(emptyInterview);
   };
 
   const onSubmit = (values: InterviewInputType) => {
@@ -101,18 +103,21 @@ const Interviews = () => {
     onClose: cancelEdit,
   }));
 
-  const handleChanges = (smth: ChangeSet) => {
-    if (smth.changed) {
-      const changedInterviewId = Object.keys(smth.changed)[0];
+  const handleChanges = ({ changed, deleted }: ChangeSet) => {
+    if (changed) {
+      const changedInterviewId = Object.keys(changed)[0];
       edit({
         variables: {
           id: changedInterviewId,
           input: {
-            startTime: smth.changed[changedInterviewId].startDate,
-            endTime: smth.changed[changedInterviewId].endDate,
+            startTime: changed[changedInterviewId].startDate,
+            endTime: changed[changedInterviewId].endDate,
           },
         },
       });
+    }
+    if (deleted) {
+      remove({ variables: { id: deleted }, refetchQueries: ['getAllInterviews'] });
     }
   };
 
@@ -134,7 +139,7 @@ const Interviews = () => {
         <DateNavigator />
         <ViewSwitcher />
         <EditRecurrenceMenu />
-        <AppointmentTooltip showOpenButton showCloseButton />
+        <AppointmentTooltip showOpenButton showCloseButton showDeleteButton />
         <AppointmentForm
           overlayComponent={appointmentForm}
           visible={isEdit}

@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import Dialog from '@material-ui/core/Dialog';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -8,7 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
-import { DateTimePicker } from '@material-ui/pickers';
+import { DatePicker, TimePicker } from '@material-ui/pickers';
 import { InterviewInputType, JobType } from 'types';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_ALL_JOBS } from 'graphql/queries';
@@ -35,22 +36,36 @@ const AddInterviewDialog = ({ isOpen, initialValues = {}, onClose, handleSubmit 
       <Paper style={{ padding: 20 }}>
         <form>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <DateTimePicker
+            <Grid item xs={12}>
+              <DatePicker
                 disablePast
                 fullWidth
+                name="date"
+                label="Date"
+                value={values.date}
+                onChange={val =>
+                  setValues({ ...values, date: val ? val.format('YYYY-MM-DD') : '' })
+                }
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TimePicker
+                fullWidth
+                ampm={false}
                 name="startTime"
                 label="Start time"
+                minutesStep={5}
                 value={values.startTime}
                 onChange={val => setValues({ ...values, startTime: val ? val.toDate() : '' })}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <DateTimePicker
-                disablePast
+              <TimePicker
                 fullWidth
+                ampm={false}
                 name="endTime"
                 label="End time"
+                minutesStep={5}
                 value={values.endTime}
                 onChange={val => setValues({ ...values, endTime: val ? val.toDate() : '' })}
               />
@@ -107,7 +122,22 @@ const AddInterviewDialog = ({ isOpen, initialValues = {}, onClose, handleSubmit 
               <Button onClick={handleClose}>Cancel</Button>
             </Grid>
             <Grid item xs={6}>
-              <Button onClick={() => handleSubmit(values)}>Submit</Button>
+              <Button
+                onClick={e => {
+                  e.stopPropagation();
+                  const { date, ...vals } = values;
+                  const startTime = moment(values.startTime).format('HH:mm');
+                  const endTime = moment(values.endTime).format('HH:mm');
+                  console.log(date, startTime, moment(`${date} ${startTime}`).toDate());
+                  handleSubmit({
+                    ...vals,
+                    startTime: moment(`${date} ${startTime}`).toDate(),
+                    endTime: moment(`${date} ${endTime}`).toDate(),
+                  });
+                }}
+              >
+                Submit
+              </Button>
             </Grid>
           </Grid>
         </form>
