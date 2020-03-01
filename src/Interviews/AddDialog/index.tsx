@@ -11,8 +11,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import { DatePicker, TimePicker } from '@material-ui/pickers';
 import { InterviewInputType, JobType } from 'types';
-import { useQuery } from '@apollo/react-hooks';
-import { GET_ALL_JOBS } from 'graphql/queries';
 import { emptyInterview } from 'Interviews/index';
 
 type Props = {
@@ -20,12 +18,11 @@ type Props = {
   initialValues: InterviewInputType;
   onClose: () => void;
   handleSubmit: (i: InterviewInputType) => void;
+  jobs: JobType[];
 };
 
-const AddInterviewDialog = ({ isOpen, initialValues = {}, onClose, handleSubmit }: Props) => {
+const AddInterviewDialog = ({ isOpen, initialValues = {}, onClose, handleSubmit, jobs }: Props) => {
   const [values, setValues] = React.useState<InterviewInputType>(initialValues);
-  const { data } = useQuery(GET_ALL_JOBS);
-  const jobs = data && data.getAllJobs ? data.getAllJobs : [];
   const handleClose = () => {
     setValues(emptyInterview);
     onClose();
