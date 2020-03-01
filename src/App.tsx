@@ -5,12 +5,14 @@ import Jobs from './Jobs';
 import Interviews from './Interviews';
 import apolloClient from './graphql/config';
 import Layout from './Layout/Dashboard';
+import TableCompare from './Table';
 
 const App: React.FC = () => (
   <ApolloProvider client={apolloClient}>
     <Router>
       <Layout>
         <Switch>
+          <Route path="/table" component={TableCompare} />
           <Route path="/jobs" component={Jobs} />
           <Route path="/interviews" component={Interviews} />
           <Route path="/" component={Jobs} />

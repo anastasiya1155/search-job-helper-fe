@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import PeopleIcon from '@material-ui/icons/People';
+import DashboardIcon from '@material-ui/icons/TableChart';
+import ShoppingCartIcon from '@material-ui/icons/Work';
+import PeopleIcon from '@material-ui/icons/Event';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -65,7 +65,7 @@ const Dashboard: React.FC = ({ children }) => {
         </div>
         <Divider />
         <List>
-          <Link to="/">
+          <Link to="/table">
             <ListItem button>
               <ListItemIcon>
                 <DashboardIcon />
