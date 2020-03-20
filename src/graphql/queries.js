@@ -161,3 +161,48 @@ export const REMOVE_INTERVIEW = gql`
     }
   }
 `;
+
+export const GET_ALL_NOTES = gql`
+  query getAllNotes {
+    getAllNotes {
+      id
+      title
+      text
+      frequency
+    }
+  }
+`;
+
+export const CREATE_NOTE = gql`
+  mutation createNote($input: NoteInput) {
+    createNote(input: $input) {
+      id
+      title
+      text
+      frequency
+    }
+  }
+`;
+
+export const EDIT_NOTE = gql`
+  mutation editNote($id: ID!, $input: NoteInput!) {
+    note(id: $id) {
+      edit(input: $input) {
+        id
+        title
+        text
+        frequency
+      }
+    }
+  }
+`;
+
+export const REMOVE_NOTE = gql`
+  mutation removeNote($id: ID!) {
+    note(id: $id) {
+      remove {
+        id
+      }
+    }
+  }
+`;

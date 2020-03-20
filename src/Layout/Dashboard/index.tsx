@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/TableChart';
 import ShoppingCartIcon from '@material-ui/icons/Work';
 import PeopleIcon from '@material-ui/icons/Event';
+import NotesIcon from '@material-ui/icons/Notes';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -87,6 +88,14 @@ const Dashboard: React.FC = ({ children }) => {
                 <PeopleIcon />
               </ListItemIcon>
               <ListItemText primary="Interviews" />
+            </ListItem>
+          </Link>
+          <Link to="/notes">
+            <ListItem button>
+              <ListItemIcon>
+                <NotesIcon />
+              </ListItemIcon>
+              <ListItemText primary="Notes" />
             </ListItem>
           </Link>
         </List>

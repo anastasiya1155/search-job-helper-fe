@@ -16,6 +16,7 @@ type Props = {
   editProps?: object;
   onSubmit: (name: string, value: string) => Promise<ExecutionResult<any>>;
   type: string;
+  noName?: boolean;
 };
 
 const TextOrInput = ({
@@ -27,6 +28,7 @@ const TextOrInput = ({
   onSubmit,
   fieldName,
   type,
+  noName,
 }: Props) => {
   const [isEdit, setEdit] = React.useState(false);
   const [value, setValue] = React.useState(text);
@@ -41,19 +43,17 @@ const TextOrInput = ({
   const handleSubmit = () => {
     onSubmit(fieldName, value).then(() => setEdit(false));
   };
-  let displayValue = (
-    <Typography {...textProps}>
-      {text}
-    </Typography>
-  );
+  let displayValue = <Typography {...textProps}>{text}</Typography>;
   if (type === 'boolean') {
-    displayValue = text ? <CheckIcon/> : <CloseIcon/>
+    displayValue = text ? <CheckIcon /> : <CloseIcon />;
   }
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Typography {...textProps} style={{ flexShrink: 0 }}>
-        {name}:{' '}
-      </Typography>
+      {!noName && (
+        <Typography {...textProps} style={{ flexShrink: 0 }}>
+          {name}:{' '}
+        </Typography>
+      )}
       {isEdit ? (
         <>
           <EditComponent {...editProps} value={value} checked={value} onChange={handleChange} />

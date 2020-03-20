@@ -64,3 +64,17 @@ export type InterviewInputType = {
   comments?: string;
   date?: Date | string;
 };
+
+export type NoteType = {
+  id: string;
+  title: string;
+  text: string;
+  frequency: number;
+};
+
+export type NoteInputType = {
+  id?: string;
+  title?: string;
+  text?: string;
+  frequency?: number;
+};
