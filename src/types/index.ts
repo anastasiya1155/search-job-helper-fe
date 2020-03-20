@@ -17,7 +17,9 @@ export type JobType = {
   timeToOffice: number;
   offer: boolean;
   testTask: string;
-  [fieldName: string]: string | boolean | number | undefined;
+  interviewsCount: number;
+  interviews: InterviewType[];
+  [fieldName: string]: any;
 };
 
 export type JobInputType = {
@@ -38,6 +40,7 @@ export type JobInputType = {
   timeToOffice?: string | number;
   offer?: boolean;
   testTask?: string;
+  interviewsCount?: string | number;
 };
 
 export type InterviewType = {

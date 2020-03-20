@@ -22,6 +22,10 @@ export const GET_ALL_JOBS = gql`
       timeToOffice
       offer
       testTask
+      interviewsCount
+      interviews {
+        id
+      }
     }
   }
 `;
@@ -49,6 +53,7 @@ export const EDIT_JOB = gql`
         timeToOffice
         offer
         testTask
+        interviewsCount
       }
     }
   }
@@ -76,6 +81,7 @@ export const CREATE_JOB = gql`
       timeToOffice
       offer
       testTask
+      interviewsCount
     }
   }
 `;

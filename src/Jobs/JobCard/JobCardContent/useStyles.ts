@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles({
+export default makeStyles(theme => ({
   title: {
     fontSize: 14,
   },
@@ -11,4 +11,9 @@ export default makeStyles({
     color: 'inherit',
     border: 'none',
   },
-});
+  stepper: {
+    backgroundColor: 'transparent',
+    padding: 0,
+    marginBottom: theme.spacing(2),
+  },
+}));

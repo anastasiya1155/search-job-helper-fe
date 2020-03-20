@@ -37,7 +37,10 @@ const Jobs: React.FC = () => {
           <NewJobCard
             onCancel={() => setNewAdded(false)}
             onSubmit={vals =>
-              create({ variables: { input: vals }, refetchQueries: ['getAllJobs'] }).then(() => setNewAdded(false))
+              create({
+                variables: { input: vals },
+                refetchQueries: ['getAllJobs'],
+              }).then(() => setNewAdded(false))
             }
           />
         ) : null}

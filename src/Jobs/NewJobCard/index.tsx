@@ -28,7 +28,8 @@ type Field =
   | 'salaryOffer'
   | 'timeToOffice'
   | 'testTask'
-  | 'comments';
+  | 'comments'
+  | 'interviewsCount';
 
 const NewJobCard = ({ onCancel, onSubmit }: Props) => {
   const [isRemove, setRemove] = React.useState(false);
@@ -48,6 +49,7 @@ const NewJobCard = ({ onCancel, onSubmit }: Props) => {
     'salaryOffer',
     'timeToOffice',
     'testTask',
+    'interviewsCount',
   ];
   return (
     <Card className={classes.card}>
@@ -101,6 +103,9 @@ const NewJobCard = ({ onCancel, onSubmit }: Props) => {
               timeToOffice: inputs.timeToOffice
                 ? parseInt(inputs.timeToOffice as string, 10)
                 : inputs.timeToOffice,
+              interviewsCount: inputs.interviewsCount
+                ? parseInt(inputs.interviewsCount as string, 10)
+                : inputs.interviewsCount,
             };
 
             return onSubmit(normalizedInputs);
