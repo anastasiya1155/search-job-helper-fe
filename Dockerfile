@@ -1,6 +1,6 @@
 FROM node:10
-COPY package.json yarn.lock ./
-RUN yarn install --production
+COPY package.json package-lock.json ./
+RUN npm install --production
 COPY . ./
-RUN yarn build
+RUN npm run build
 CMD ["node", "server.js"]
