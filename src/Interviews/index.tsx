@@ -155,7 +155,7 @@ const Interviews = () => {
 
   return (
     <Paper className={classes.container}>
-      <Scheduler data={formattedData} height={550}>
+      <Scheduler data={formattedData}>
         <ViewState />
         <EditingState
           onCommitChanges={handleChanges}

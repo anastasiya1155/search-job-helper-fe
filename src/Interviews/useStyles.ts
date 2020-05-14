@@ -1,13 +1,14 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles((theme: Theme) => ({
+export default makeStyles(() => ({
   container: {
     position: 'relative',
+    height: 'calc(100vh - 110px)',
   },
   addButton: {
-    position: 'fixed',
-    bottom: theme.spacing(10),
-    right: theme.spacing(14),
+    position: 'absolute',
+    bottom: 15,
+    right: 15,
     zIndex: 10,
   },
 }));

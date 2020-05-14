@@ -4,6 +4,7 @@ import { JobType } from 'types';
 export default makeStyles({
   card: {
     width: 350,
+    maxWidth: '100%',
     height: 'fit-content',
     position: 'relative',
     overflow: 'visible',

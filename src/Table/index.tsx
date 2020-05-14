@@ -11,7 +11,6 @@ const TableCompare = () => {
       <Table
         title="My vacancies"
         columns={[
-          { field: 'id', title: 'Id' },
           { field: 'name', title: 'Name' },
           { field: 'interested', title: 'Interest' },
           { field: 'offer', title: 'Offer', type: 'boolean' },
@@ -25,13 +24,14 @@ const TableCompare = () => {
           { field: 'additionalBonuses', title: 'Addition Bonuses' },
           { field: 'comments', title: 'Comments' },
         ]}
-        // detailPanel={}
         data={tableData}
         isLoading={loading}
         options={{
           paging: false,
           loadingType: 'linear',
           columnsButton: true,
+          search: false,
+          exportButton: true,
         }}
       />
     </div>

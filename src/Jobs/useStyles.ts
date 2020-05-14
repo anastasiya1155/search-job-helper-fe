@@ -4,7 +4,7 @@ export default makeStyles((theme: Theme) => ({
   jobsContainer: {
     display: 'grid',
     gridGap: theme.spacing(4),
-    gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr));',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 350px));',
     marginTop: theme.spacing(4),
   },
 }));
